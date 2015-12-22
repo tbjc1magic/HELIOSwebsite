@@ -1,0 +1,123 @@
+<html>
+<head>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}?v={random number/string}" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/data.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<script src="{% static 'polls/jQuerytbjc.js' %}?v={random number/string}"></script>
+
+    {% load chartit %}
+    {{ kinetic_chart|load_charts:"container" }}
+
+</head>
+
+<style type="text/css">
+${demo.css}
+</style>
+
+<script type="text/javascript">
+
+$(function () {
+   console.log("bobo1bobo");
+   var data = document.getElementById('csv').innerHTML;
+   console.log(data);
+});
+</script>
+
+<body>
+
+<div class="charts">
+    <div id="chart_container1" style="width: 310px;width:600px; margin: 0 auto"></div>
+    <div id="chart_container2" style="width: 310px;width:600px; margin: 0 auto"></div>
+</div>
+<div class="ExContainer">
+    <div id="tableContainer" class="tableContainer">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
+
+            <thead class="fixedHeader">
+                <tr class="alternateRow">
+                    <th>Excitation Energy</th>
+                </tr>
+            </thead>
+
+            <tbody class="scrollContent">
+
+                <tr>
+                    <td>0</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <button id ="DeleteEx" type="button">-</button>
+    <button id ="AddEx" type="button">+</button>
+
+</div>
+<div class="input_para">
+    <div class="ArrayRangeLabel">
+    <p>Array</p><br><p>Range</p>
+    </div>
+    <div class="ArrayRange">
+        <div class="ArrayRange-display"></div>
+        <div class="ArrayRange-slider"></div>
+    </div>
+    <div class="ArrayExRangeLabel">
+    <p>Array</p><br><p>ExRange</p>
+    </div>
+    <div class="ArrayExRange">
+        <div class="ArrayExRange-display"></div>
+        <div class="ArrayExRange-slider"></div>
+    </div>
+    <div class="ProjectileK_container">
+        <label>Kinetic Energy</label>
+        <input class="ProjectileK" name="K0" type="text" value = "100">
+    </div>
+
+    <div class="HELIOS_B_container">
+        <label>Magnetic Field</label>
+        <input class="HELIOS_B" name="HELIOS_B" type="text" value = "2.85">
+    </div>
+</div>
+<form id="kinetic_form" action="" method="post">{% csrf_token %}
+<div class="kinetic_form">
+{% for ii in "0123" %}
+    <div class="mass_div">
+        <div class="left">
+            <label class="mass-label">m{{ii}}:</label><label class="element">unknown</label>
+        </div>
+        <div class="right">
+            <label>A:</label>
+            <input class="A" name="A{{ii}}" type="text" value="0">
+
+            <label>Z:</label>
+            <input class="Z" name="Z{{ii}}" type="text" value="0">
+
+            <label>C:</label>
+            <input class="C" name="C{{ii}}" type="text" value="0">
+
+            <label class="result"></label>
+            <br>
+        </div>
+
+    </div>
+{% endfor %}
+</div>
+</form>
+<div class="kinetic_btn_container">
+<button id="kinetic_btn" type="button">clicktest</button>
+</div>
+</body>
+<pre id="csv" style="display:none">
+bobo,1d
+50,2,4,2
+100,3,2,2
+110,4,2,2</pre>
+</html>

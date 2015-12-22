@@ -1,0 +1,55 @@
+<html>
+<head>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/data.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+{% load staticfiles %}
+<script src="{% static 'polls/jQuerytbjc.js' %}?v={random number/string}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}?v={random number/string}" />
+
+    {% load chartit %}
+    {{ kinetic_chart|load_charts:"container" }}
+
+</head>
+
+<body>
+
+<p>alalal</p>
+
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+
+    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+<div id="container"></div>
+
+<form id="kinetic_form" action="" method="post">{% csrf_token %}
+{% for i in "0123" %}
+    <div class="mass_div">
+        <div class="left">
+            <label>m{{i}}:</label><label class="element">unknown</label>
+        </div>
+        <div class="right">
+            <label>A:</label>
+            <input class="A" name="A{{ii}}" type="text" value="0">
+
+            <label>Z:</label>
+            <input class="Z" name="Z{{ii}}" type="text" value="0">
+            <label class="result"></label>
+            <br>
+        </div>
+
+    </div>
+{% endfor %}
+</body>
+
+</html>

@@ -1,0 +1,183 @@
+
+$(document).ready(function(){
+
+        function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+        }
+        }
+        }
+        return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+                }
+                });
+
+   //     {% load staticfiles %}
+   //     var imagenamepre = "{% static '' %}";
+  //      imagenamepre = imagenamepre.toString();
+  //      var imagenameend1 ="{{picname1}}";
+  //      var imagename1 = imagenamepre + imagenameend1;
+/*
+        $("#kinetic_form").bind('submit',function(e){
+
+                var isValid = 1;
+                if (!isValid)
+                {
+                e.preventDefault();
+                return false;
+                }
+                else
+                {
+                var formData=$("#kinetic_form").serializeArray();
+
+                $(".c2 input[name='mtar']").val("shit");
+                $.ajax({
+                type:'POST',
+                url:'result',
+                contentType:"application/json",
+                data:JSON.stringify(formData),
+                success:
+                function(data){
+                var d=new Date();
+      //          {% load staticfiles %}
+    //            $("img").attr('src','/static/1.png'+'?'+d.getTime());
+                }
+                });
+                }
+        e.preventDefault();
+        return false;
+        });
+*/
+        /*
+        $("#tbjctest .Ztest").bind('keyup',
+
+            function checkfiled()
+            {
+                formdata = $("#test_form").serializeArray();
+                alert(formdata);
+
+                $.ajax({type:"POST",
+                    url:"result2",
+                    contentType:"application/json",
+                    data:JSON.stringify(formdata),
+                    success:function(data){
+                //   $("#tbjctest .element").text(data);
+                    }
+                    });
+
+            }
+
+        );*/
+
+        $("#kinetic_btn").bind('click',function(){
+
+            var A_input = $('.mass_div input[name=A1]').val();
+            A_input += "test";
+            alert(A_input);
+
+        });
+
+       $(".mass_div input").bind('keyup',function(){
+
+            //   formdata = $(this).parent().serializeArray();
+                var A_name = $(this).parent().children(".A").prop('name');
+                alert(A_name);
+               var A_input = $(this).parent().children(".A").val();
+               var Z_input = $(this).parent().children(".Z").val();
+               formdata=[ {'name':"Z",'value':Z_input},{'name':"A",'value':A_input} ];
+               parentform = $(this).parent().parent();
+               $.ajax({type:"POST",
+                   url:"ElementFinder",
+                   contentType:"application/json",
+                   data:JSON.stringify(formdata),
+                   success:function(data)
+                   {
+
+                        var obj = $.parseJSON(data);
+                        var tmpname = obj.Name;
+                        var tmpA = obj.A;
+                        var tmpZ = obj.Z;
+                        return_str = tmpA + tmpname + tmpZ;
+                        //alert(parentform.prop('class')+parentform.prop('tagName'));
+
+                        parentform.children(".left").children(".element").text(return_str);
+                        var tmpMass = obj.Mass;
+                        Mass_str = tmpMass+'u';
+                        parentform.children(".right").children(".result").text(Mass_str);
+
+                   }
+
+                   });
+
+               });
+
+function SetKineticChart(data)
+{
+
+	if(data=='') return;
+
+$('#chart_container').highcharts({
+
+        title: {
+            text: 'Global temperature change'
+        },
+
+        subtitle: {
+            text: 'Data input from CSV'
+        },
+
+        data: {
+            csv: data
+        },
+
+            tooltip: {
+                shared: true,
+                crosshairs: true
+            },
+
+
+        plotOptions: {
+            series: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
+
+        series: [{
+                name: 'All visits',
+                lineWidth: 4,
+                marker: {
+                    radius: 1
+                }
+            }, {
+                name: 'New visitors'
+            }]
+    });
+
+};
+
+
+
+
+
+
+});
